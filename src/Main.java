@@ -5,8 +5,7 @@ import java.util.InputMismatchException;
 public class Main {
     private static final int MAX_ITEMS_COUNT = 100;
     private static final int MAX_NAME_LENGTH = 20;
-    private static final String DISCOUNT_RATE = "20%";
-    private static final double DISCOUNT_MULTIPLIER = 0.80;
+    public static double discountValue = 1;
     private static final String NO_DISCOUNT_MESSAGE = "N/A";
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -67,7 +66,12 @@ public class Main {
             System.out.print("Is there a discount? (Y/N): ");
             char discounted = checkInput();
 
-            double grandTotal = discounted == 'Y' ? subTotal * DISCOUNT_MULTIPLIER : subTotal;
+            if (discounted == 'Y') {
+                System.out.print("How much percentage is the discount?: ");
+                discountValue = checkDouble() * 0.01;
+            }
+
+            double grandTotal = discounted == 'Y' ? subTotal - (subTotal * discountValue) : subTotal;
             System.out.println("Total amount " + (discounted == 'Y' ? "after discount is: " : "is: ") + grandTotal);
 
             double cashGiven;
@@ -151,7 +155,7 @@ public class Main {
 
         System.out.println("--------------------------------------------");
         System.out.printf("%-37s%-10.2f%n", "Subtotal", subTotal);
-        System.out.printf("%-37s%-10s%n", "Discount", discounted ? DISCOUNT_RATE : NO_DISCOUNT_MESSAGE);
+        System.out.printf("%-37s%-10s%n", "Discount", discounted ? discountValue * 100 : NO_DISCOUNT_MESSAGE);
         System.out.println("--------------------------------------------");
         System.out.printf("%-37s%-10.2f%n", "Grand Total", grandTotal);
         System.out.println("--------------------------------------------");
